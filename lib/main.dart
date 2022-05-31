@@ -1,7 +1,31 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 void main() {
   runApp(const MyApp());
+
+  // // Some simplest connection :F
+  // try {
+  //     BluetoothConnection connection = await BluetoothConnection.toAddress(address);
+  //     print('Connected to the device');
+
+  //     connection.input.listen((Uint8List data) {
+  //         print('Data incoming: ${ascii.decode(data)}');
+  //         connection.output.add(data); // Sending data
+
+  //         if (ascii.decode(data).contains('!')) {
+  //             connection.finish(); // Closing connection
+  //             print('Disconnecting by local host');
+  //         }
+  //     }).onDone(() {
+  //       print('Disconnected by remote request');
+  //     });
+  // }
+  // catch (exception) {
+  //     print('Cannot connect, exception occured');
+  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Switch(
             value: isSwitched,
@@ -47,6 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             },
           ),
+          const Divider(),
+          Text(isSwitched ? 'Bomba ligada' : 'Bomba desligada')
         ],
       ),
     );
