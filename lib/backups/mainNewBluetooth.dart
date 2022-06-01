@@ -20,6 +20,11 @@ String printBluetoothStatus (String text) {
   else return '';
 }
 
+String deviceStatusLabel (String text){
+  if(text == "connected") return 'conectado';
+   else return 'desconectado';
+}
+
 void verifyConnected(deviceObj, isConnected){
   const colocarOBreackpointNessaLinha = '';
 }
