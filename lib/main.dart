@@ -10,17 +10,18 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:aguage/device.dart';
 import 'package:aguage/globals.dart' as globals;
 
-
 void main() {
   runApp(FlutterBlueApp());
 }
 
-String printBluetoothStatus (String text) {
-  if(text == "off") return 'Ligue o bluetooth para continuar';
-  else return '';
+String printBluetoothStatus(String text) {
+  if (text == "off")
+    return 'Ligue o bluetooth para continuar';
+  else
+    return '';
 }
 
-void verifyConnected(deviceObj, isConnected){
+void verifyConnected(deviceObj, isConnected) {
   const colocarOBreackpointNessaLinha = '';
 }
 
@@ -28,6 +29,7 @@ class FlutterBlueApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       color: globals.mainColor,
       home: StreamBuilder<BluetoothState>(
           stream: FlutterBlue.instance.state,
@@ -93,9 +95,12 @@ class FindDevicesScreen extends StatelessWidget {
               builder: (c, snapshot) => Column(
                 children: snapshot.data!
                     .map((result) => ListTile(
-                          title: Text(result.device.name == "" ? "Sem nome " : result.device.name),
+                          title: Text(result.device.name == ""
+                              ? "Sem nome "
+                              : result.device.name),
                           subtitle: Text(result.device.id.toString()),
-                          onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          onTap: () => Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
                             result.device.connect();
                             return DeviceScreen(device: result.device);
                           })),
@@ -112,16 +117,23 @@ class FindDevicesScreen extends StatelessWidget {
         builder: (c, snapshot) {
           if (snapshot.data!) {
             return FloatingActionButton(
-              child: Icon(Icons.stop, color: globals.mainColor,),
+              child: Icon(
+                Icons.stop,
+                color: globals.mainColor,
+              ),
               onPressed: () => FlutterBlue.instance.stopScan(),
               backgroundColor: globals.textColor,
             );
           } else {
             return FloatingActionButton(
-                child: Icon(Icons.search, color: globals.textColor,), 
-                onPressed: () => FlutterBlue.instance.startScan(timeout: Duration(seconds: 10)),
-                backgroundColor: globals.mainColor,
-              );
+              child: Icon(
+                Icons.search,
+                color: globals.textColor,
+              ),
+              onPressed: () => FlutterBlue.instance
+                  .startScan(timeout: Duration(seconds: 10)),
+              backgroundColor: globals.mainColor,
+            );
           }
         },
       ),

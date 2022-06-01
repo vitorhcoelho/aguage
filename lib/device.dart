@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
-String deviceStatusLabel (String text){
-  if(text == "connected") return 'conectado';
-   else return 'desconectado';
+import 'package:aguage/globals.dart' as globals;
+
+String deviceStatusLabel(String text) {
+  if (text == "connected")
+    return 'conectado';
+  else
+    return 'desconectado';
 }
 
 class DeviceScreen extends StatelessWidget {
@@ -38,7 +42,16 @@ class DeviceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: globals.mainColor,
         title: Text(device.name),
+        titleTextStyle: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+          color: globals.textColor,
+        ),
+        leading: BackButton(
+          color: globals.textColor,
+        ),
         actions: <Widget>[
           StreamBuilder<BluetoothDeviceState>(
             stream: device.state,
@@ -64,7 +77,10 @@ class DeviceScreen extends StatelessWidget {
                   onPressed: onPressed,
                   child: Text(
                     text,
-                    style: Theme.of(context).primaryTextTheme.button?.copyWith(color: Colors.white),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: globals.textColor,
+                    ),
                   ));
             },
           )
@@ -77,9 +93,11 @@ class DeviceScreen extends StatelessWidget {
               stream: device.state,
               initialData: BluetoothDeviceState.connecting,
               builder: (c, snapshot) => ListTile(
-                leading:
-                    (snapshot.data == BluetoothDeviceState.connected) ? Icon(Icons.bluetooth_connected) : Icon(Icons.bluetooth_disabled),
-                title: Text('O dispositivo está ${deviceStatusLabel(snapshot.data.toString().split('.')[1])}.'),
+                leading: (snapshot.data == BluetoothDeviceState.connected)
+                    ? Icon(Icons.bluetooth_connected)
+                    : Icon(Icons.bluetooth_disabled),
+                title: Text(
+                    'O dispositivo está ${deviceStatusLabel(snapshot.data.toString().split('.')[1])}.'),
                 subtitle: Text('${device.id}'),
                 trailing: StreamBuilder<bool>(
                   stream: device.isDiscoveringServices,
@@ -88,7 +106,13 @@ class DeviceScreen extends StatelessWidget {
                     index: snapshot.data! ? 1 : 0,
                     children: <Widget>[
                       TextButton(
-                        child: Text("Show Services"),
+                        child: Text(
+                          "Show Services",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: globals.textColor,
+                          ),
+                        ),
                         onPressed: () => device.discoverServices(),
                       ),
                       IconButton(
