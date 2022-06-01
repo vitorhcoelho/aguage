@@ -25,6 +25,10 @@ void main() {
     else return 'desconectado';
  }
 
+ void verifyConnected(instanciaDoBluetooth, isConnected){
+   const colocarOBreackpointNessaLinha = '';
+ }
+
 class FlutterBlueApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -91,7 +95,7 @@ class FindDevicesScreen extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () =>
-            FlutterBlue.instance.startScan(timeout: Duration(seconds: 4)),
+            FlutterBlue.instance.startScan(timeout: Duration(seconds: 10)),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -108,8 +112,8 @@ class FindDevicesScreen extends StatelessWidget {
                               stream: d.state,
                               initialData: BluetoothDeviceState.disconnected,
                               builder: (c, snapshot) {
-                                if (snapshot.data ==
-                                    BluetoothDeviceState.connected) {
+                                if (snapshot.data == BluetoothDeviceState.connected) {
+                                  verifyConnected(snapshot, BluetoothDeviceState.connected);
                                   return RaisedButton(
                                     child: Text('ABRIR'),
                                     onPressed: () => Navigator.of(context).push(
@@ -118,7 +122,7 @@ class FindDevicesScreen extends StatelessWidget {
                                                 DeviceScreen(device: d))),
                                   );
                                 }
-                                return Text(snapshot.data.toString());
+                                return Text(snapshot.data.toString());                            
                               },
                             ),
                           ))
@@ -161,8 +165,8 @@ class FindDevicesScreen extends StatelessWidget {
             return FloatingActionButton(
                 child: Icon(Icons.search, color: globals.textColor,),
                 backgroundColor: globals.mainColor,
-                onPressed: () => FlutterBlue.instance
-                    .startScan(timeout: Duration(seconds: 30)));
+                onPressed: () => FlutterBlue.instance.startScan(timeout: Duration(seconds: 10))
+            );
           }
         },
       ),
